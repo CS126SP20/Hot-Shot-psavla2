@@ -13,7 +13,9 @@ using namespace ci::app;
 namespace myapp {
 
 float xpos = 0;
+int score = 0;
 gl::TextureRef mTexture;
+gl::TextureRef mTex;
 using cinder::app::KeyEvent;
 
 MyApp::MyApp() {
@@ -31,18 +33,26 @@ void MyApp::update() {
 
 }
 
+template <typename C>
+void PrintText(const std::string& text, const C& color, const cinder::ivec2& size,
+               const cinder::vec2& loc) {
+  cinder::gl::color(color);
+}
+
 void MyApp::draw() {
-  gl::clear();
+  cinder::gl::clear(Color(0.53, 0.81, 0.94));
+  const cinder::vec2 center = getWindowCenter();
+  const cinder::ivec2 size = {500, 50};
+  const Color color = Color::black();
+  PrintText("Score:" + score, color, size, {center.x - 200, center.y - 300});
   // reset the matrices
   gl::setMatricesWindow( getWindowSize());
-  gl::translate(xpos, getWindowCenter().y);
+  gl::translate(xpos, getWindowCenter().y - 100);
   gl::color( Color( 1, 1, 1 ) );
-  Rectf drawRect( 0, 0, mTexture->getWidth() / 15,
-                  mTexture->getHeight() / 15 );
+  Rectf drawRect( 0, 0, mTexture->getWidth() / 12,
+                  mTexture->getHeight() / 12 );
   gl::draw( mTexture, drawRect );
-  /*gl::translate(xpos, getWindowCenter().y);
-  gl::color( Color( 1, 0, 0 ) );
-  gl::drawSolidCircle( vec2( 0 ), 70 );*/
+
   if (xpos <= 800) {
     xpos += 0.5;
   } else {
@@ -53,4 +63,16 @@ void MyApp::draw() {
 
 void MyApp::keyDown(KeyEvent event) { }
 
+void MyApp::mouseMove( MouseEvent event ) {
+  ivec2 mMouseLoc = event.getPos();
+  std::cout << mMouseLoc;
+}
+
+void MyApp::mouseDrag( MouseEvent event ) {
+  mouseMove( event );
+}
+
+
+
 }  // namespace myapp
+
