@@ -15,8 +15,7 @@ bool pressed = false;
 
 namespace myapp {
 
-double ypos = 0;
-double xpos = 0;
+int score  = 0;
 using cinder::app::KeyEvent;
 vector<vec2> cd;
 
@@ -29,22 +28,57 @@ void MyApp::setup() {
   gl::enableDepthRead();
 }
 
+template <typename C>
+void PrintText(const std::string& text, const C& color, const cinder::ivec2& size,
+               const cinder::vec2& loc) {
+  cinder::gl::color(color);
+
+  auto box = TextBox()
+      .alignment(TextBox::CENTER)
+      .font(cinder::Font("Arial", 30))
+      .size(size)
+      .color(color)
+      .backgroundColor(ColorA(0, 0, 0, 0))
+      .text(text);
+
+  const auto box_size = box.getSize();
+  const cinder::vec2 locp = {loc.x - box_size.x / 2, loc.y - box_size.y / 2};
+  const auto surface = box.render();
+  const auto texture = cinder::gl::Texture::create(surface);
+  cinder::gl::draw(texture, locp);
+}
+
 void MyApp::update() {
 
 }
 
 void MyApp::draw() {
   cinder::gl::clear(Color(0.53, 0.81, 0.94));
-  mylibrary::DrawBoard();
-
+  double x_pos = mylibrary::DrawBoard();
+  //std::cout << "CENTER" << x_pos;
+  gl::setMatricesWindow( getWindowSize());
   if (pressed) {
-    double x = mylibrary::MoveBall();
-    if (x >= 400) {
+    double y_pos = mylibrary::MoveBall();
+    if (y_pos >= getWindowCenter().y - 100) {
       pressed = false;
+    }
+
+
+    if (y_pos == getWindowCenter().y - 100 && x_pos >= getWindowCenter().x - 70 && x_pos <= getWindowCenter().x + 70) {
+      score++;
     }
   } else {
     mylibrary::DrawBall();
   }
+
+  const cinder::vec2 center = getWindowCenter();
+  const cinder::ivec2 size = {500, 50};
+  const Color color = Color::black();
+  std::stringstream ss;
+  ss << score;
+  std::cout << ss.str();
+  PrintText("Score: ", color, size, {center.x - 200, center.y - 300});
+  PrintText(ss.str(), color, size, {center.x - 130, center.y - 260});
   /*if (!cd.empty()) {
     double x = mylibrary::Slope(cd);
     std::cout << x << std::endl;

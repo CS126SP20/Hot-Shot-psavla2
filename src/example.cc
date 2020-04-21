@@ -21,10 +21,11 @@ void SetUp() {
       mTexture->bind();
 }
 
-void DrawBoard() {
+double DrawBoard() {
   gl::setMatricesWindow( getWindowSize());
   gl::translate(xpos, getWindowCenter().y - 100);
   gl::color( Color( 1, 1, 1 ) );
+  //std::cout << mTexture->getWidth() << mTexture->getHeight();
   Rectf drawRect( 0, 0, mTexture->getWidth() / 12,
                   mTexture->getHeight() / 12 );
   gl::draw( mTexture, drawRect );
@@ -34,6 +35,8 @@ void DrawBoard() {
   } else {
     xpos = 0;
   }
+
+  return xpos;
 }
 
 void DrawBall() {
@@ -47,7 +50,7 @@ double MoveBall() {
   gl::translate(getWindowCenter().x - 400, -ypos);
   gl::color( Color( 1, 0.67, 0.67 ) );
   gl::drawSolidCircle( getWindowCenter() + vec2(0, 250), 25 );
-  if (ypos <= 400) {
+  if (ypos <= getWindowCenter().y - 100) {
     ypos += 5;
   } else {
     ypos = 0;
