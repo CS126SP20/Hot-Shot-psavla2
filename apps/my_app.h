@@ -16,8 +16,9 @@ class MyApp : public cinder::app::App {
   void update() override;
   void draw() override;
   void keyDown(cinder::app::KeyEvent) override;
-  void mouseMove(cinder::app::MouseEvent event);
+ // void mouseMove(cinder::app::MouseEvent event);
   void mouseDrag(cinder::app::MouseEvent event);
+  //void mouseDown(MouseEvent event);
 };
 
 }  // namespace myapp

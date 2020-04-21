@@ -16,6 +16,8 @@ namespace mylibrary {
   void SetUp();
   void DrawBoard();
   void DrawBall();
+  double MoveBall();
+  double Slope(std::vector<vec2> cd);
 
 }  // namespace mylibrary
 
