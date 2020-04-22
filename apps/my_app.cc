@@ -64,7 +64,7 @@ void MyApp::draw() {
     }
 
 
-    if (y_pos == getWindowCenter().y - 100 && x_pos >= getWindowCenter().x - 70 && x_pos <= getWindowCenter().x + 70) {
+    if (y_pos == getWindowCenter().y - 100 && x_pos >= getWindowCenter().x - 7  0 && x_pos <= getWindowCenter().x + 70) {
       score++;
     }
   } else {
