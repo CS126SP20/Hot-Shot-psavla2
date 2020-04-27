@@ -18,6 +18,7 @@ namespace mylibrary {
     static void SetUp();
     static double DrawBoard();
     double Slope(std::vector<vec2> cd);
+    static double GetXPos();
    private:
     static double x_position;
   };

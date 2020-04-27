@@ -53,4 +53,9 @@ double Slope(std::vector<vec2> cd) {
   return b;
 
 }
+
+double Board::GetXPos() {
+  return x_position;
+}
+
 }  // namespace mylibrary

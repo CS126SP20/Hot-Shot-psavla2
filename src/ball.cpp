@@ -37,4 +37,8 @@ double Ball::MoveBall() {
   return y_position;
 }
 
+double Ball::GetYPos() {
+  return y_position;
+}
+
 }

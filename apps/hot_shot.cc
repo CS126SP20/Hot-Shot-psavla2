@@ -11,15 +11,15 @@
 
 using namespace ci;
 using namespace ci::app;
+using cinder::app::KeyEvent;
 using std::vector;
-bool pressed = false;
 const Color background = Color(0.53, 0.81, 0.94);
 
 
 namespace myapp {
 
 int score  = 0;
-using cinder::app::KeyEvent;
+bool space_pressed = false;
 vector<vec2> cd;
 
 HotShot::HotShot() {
@@ -32,28 +32,32 @@ void HotShot::setup() {
 }
 
 void HotShot::update() {
+  PrintScore();
+}
 
+void UpdateScore() {
+  double x_pos = mylibrary::Board::GetXPos();
+  double y_pos = mylibrary::Ball::GetYPos();
+  cinder::vec2 center = getWindowCenter();
+  if (y_pos >= center.y - 100) {
+    space_pressed = false;
+  }
+
+  if (y_pos == center.y - 100 && x_pos >= center.x - 70 && x_pos <= center.x + 70) {
+    score++;
+  }
 }
 
 void HotShot::draw() {
   cinder::gl::clear(background);
-  double x_pos = mylibrary::Board::DrawBoard();
+  mylibrary::Board::DrawBoard();
   gl::setMatricesWindow( getWindowSize());
-  if (pressed) {
-    double y_pos = mylibrary::Ball::MoveBall();
-    if (y_pos >= getWindowCenter().y - 100) {
-      pressed = false;
-    }
-
-
-    if (y_pos == getWindowCenter().y - 100 && x_pos >= getWindowCenter().x - 70 && x_pos <= getWindowCenter().x + 70) {
-      score++;
-    }
+  if (space_pressed) {
+    mylibrary::Ball::MoveBall();
+    UpdateScore();
   } else {
     mylibrary::Ball::DrawBall();
   }
-
-  PrintScore();
   /*if (!cd.empty()) {
     double x = mylibrary::Slope(cd);
     std::cout << x << std::endl;
@@ -83,7 +87,7 @@ void HotShot::draw() {
 
 void HotShot::keyDown(KeyEvent event) {
   if (event.getCode() == KeyEvent::KEY_SPACE) {
-    pressed = true;
+    space_pressed = true;
   }
 }
 
