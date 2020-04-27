@@ -15,8 +15,6 @@ using namespace ci::app;
 namespace mylibrary {
   void SetUp();
   double DrawBoard();
-  void DrawBall();
-  double MoveBall();
   double Slope(std::vector<vec2> cd);
 
 }  // namespace mylibrary

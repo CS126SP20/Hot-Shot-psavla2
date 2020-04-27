@@ -1,11 +1,13 @@
 // Copyright (c) 2020 [Your Name]. All rights reserved.
 
-#include "my_app.h"
+#include "hot_shot.h"
 #include <cinder/app/App.h>
 #include <cinder/app/RendererGl.h>
 #include <cinder/gl/gl.h>
-#include <vector>
+#include "mylibrary/ball.h"
+
 #include <cmath>
+#include <vector>
 
 using namespace ci;
 using namespace ci::app;
@@ -19,10 +21,10 @@ int score  = 0;
 using cinder::app::KeyEvent;
 vector<vec2> cd;
 
-MyApp::MyApp() {
+HotShot::HotShot() {
 }
 
-void MyApp::setup() {
+void HotShot::setup() {
   mylibrary::SetUp();
   gl::enableDepthWrite();
   gl::enableDepthRead();
@@ -48,27 +50,27 @@ void PrintText(const std::string& text, const C& color, const cinder::ivec2& siz
   cinder::gl::draw(texture, locp);
 }
 
-void MyApp::update() {
+void HotShot::update() {
 
 }
 
-void MyApp::draw() {
+void HotShot::draw() {
   cinder::gl::clear(Color(0.53, 0.81, 0.94));
   double x_pos = mylibrary::DrawBoard();
   //std::cout << "CENTER" << x_pos;
   gl::setMatricesWindow( getWindowSize());
   if (pressed) {
-    double y_pos = mylibrary::MoveBall();
+    double y_pos = mylibrary::Ball::MoveBall();
     if (y_pos >= getWindowCenter().y - 100) {
       pressed = false;
     }
 
 
-    if (y_pos == getWindowCenter().y - 100 && x_pos >= getWindowCenter().x - 7  0 && x_pos <= getWindowCenter().x + 70) {
+    if (y_pos == getWindowCenter().y - 100 && x_pos >= getWindowCenter().x - 70 && x_pos <= getWindowCenter().x + 70) {
       score++;
     }
   } else {
-    mylibrary::DrawBall();
+    mylibrary::Ball::DrawBall();
   }
 
   const cinder::vec2 center = getWindowCenter();
@@ -76,9 +78,7 @@ void MyApp::draw() {
   const Color color = Color::black();
   std::stringstream ss;
   ss << score;
-  std::cout << ss.str();
-  PrintText("Score: ", color, size, {center.x - 200, center.y - 300});
-  PrintText(ss.str(), color, size, {center.x - 130, center.y - 260});
+  PrintText("Score: " + ss.str(), color, size, {center.x - 200, center.y - 300});
   /*if (!cd.empty()) {
     double x = mylibrary::Slope(cd);
     std::cout << x << std::endl;
@@ -106,13 +106,13 @@ void MyApp::draw() {
   gl::drawSolidCircle( getWindowCenter() + vec2(0, 250), 25 );*/
 }
 
-void MyApp::keyDown(KeyEvent event) {
+void HotShot::keyDown(KeyEvent event) {
   if (event.getCode() == KeyEvent::KEY_SPACE) {
     pressed = true;
   }
 }
 
-void MyApp::mouseDrag( MouseEvent event ) {
+void HotShot::mouseDrag( MouseEvent event ) {
   //std::cout << event.getPos() << std::endl;
   cd.push_back(event.getPos());
 }

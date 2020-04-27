@@ -9,9 +9,9 @@
 
 namespace myapp {
 
-class MyApp : public cinder::app::App {
+class HotShot : public cinder::app::App {
  public:
-  MyApp();
+  HotShot();
   void setup() override;
   void update() override;
   void draw() override;
