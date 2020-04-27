@@ -13,6 +13,7 @@ using namespace ci;
 using namespace ci::app;
 using std::vector;
 bool pressed = false;
+const Color background = Color(0.53, 0.81, 0.94);
 
 
 namespace myapp {
@@ -25,29 +26,9 @@ HotShot::HotShot() {
 }
 
 void HotShot::setup() {
-  mylibrary::SetUp();
+  mylibrary::Board::SetUp();
   gl::enableDepthWrite();
   gl::enableDepthRead();
-}
-
-template <typename C>
-void PrintText(const std::string& text, const C& color, const cinder::ivec2& size,
-               const cinder::vec2& loc) {
-  cinder::gl::color(color);
-
-  auto box = TextBox()
-      .alignment(TextBox::CENTER)
-      .font(cinder::Font("Arial", 30))
-      .size(size)
-      .color(color)
-      .backgroundColor(ColorA(0, 0, 0, 0))
-      .text(text);
-
-  const auto box_size = box.getSize();
-  const cinder::vec2 locp = {loc.x - box_size.x / 2, loc.y - box_size.y / 2};
-  const auto surface = box.render();
-  const auto texture = cinder::gl::Texture::create(surface);
-  cinder::gl::draw(texture, locp);
 }
 
 void HotShot::update() {
@@ -55,9 +36,8 @@ void HotShot::update() {
 }
 
 void HotShot::draw() {
-  cinder::gl::clear(Color(0.53, 0.81, 0.94));
-  double x_pos = mylibrary::DrawBoard();
-  //std::cout << "CENTER" << x_pos;
+  cinder::gl::clear(background);
+  double x_pos = mylibrary::Board::DrawBoard();
   gl::setMatricesWindow( getWindowSize());
   if (pressed) {
     double y_pos = mylibrary::Ball::MoveBall();
@@ -73,12 +53,7 @@ void HotShot::draw() {
     mylibrary::Ball::DrawBall();
   }
 
-  const cinder::vec2 center = getWindowCenter();
-  const cinder::ivec2 size = {500, 50};
-  const Color color = Color::black();
-  std::stringstream ss;
-  ss << score;
-  PrintText("Score: " + ss.str(), color, size, {center.x - 200, center.y - 300});
+  PrintScore();
   /*if (!cd.empty()) {
     double x = mylibrary::Slope(cd);
     std::cout << x << std::endl;
@@ -116,6 +91,36 @@ void HotShot::mouseDrag( MouseEvent event ) {
   //std::cout << event.getPos() << std::endl;
   cd.push_back(event.getPos());
 }
+
+template <typename C>
+void HotShot::PrintText(const std::string& text, const C& color, const cinder::ivec2& size,
+                        const cinder::vec2& loc) {
+  cinder::gl::color(color);
+
+  auto box = TextBox()
+      .alignment(TextBox::CENTER)
+      .font(cinder::Font("Arial", 30))
+      .size(size)
+      .color(color)
+      .backgroundColor(ColorA(0, 0, 0, 0))
+      .text(text);
+
+  const auto box_size = box.getSize();
+  const cinder::vec2 locp = {loc.x - box_size.x / 2, loc.y - box_size.y / 2};
+  const auto surface = box.render();
+  const auto texture = cinder::gl::Texture::create(surface);
+  cinder::gl::draw(texture, locp);
+}
+
+void HotShot::PrintScore() {
+  const cinder::vec2 center = getWindowCenter();
+  const cinder::ivec2 size = {500, 50};
+  const Color color = Color::black();
+  std::stringstream ss;
+  ss << score;
+  PrintText("Score: " + ss.str(), color, size, {center.x - 200, center.y - 300});
+}
+
 
 
 

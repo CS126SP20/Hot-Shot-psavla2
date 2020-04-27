@@ -16,6 +16,7 @@ namespace mylibrary {
    public:
     static void DrawBall();
     static double MoveBall();
+   private:
     static double y_position;
 
   };

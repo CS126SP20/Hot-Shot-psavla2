@@ -13,9 +13,14 @@ using namespace ci;
 using namespace ci::app;
 
 namespace mylibrary {
-  void SetUp();
-  double DrawBoard();
-  double Slope(std::vector<vec2> cd);
+  class Board {
+   public:
+    static void SetUp();
+    static double DrawBoard();
+    double Slope(std::vector<vec2> cd);
+   private:
+    static double x_position;
+  };
 
 }  // namespace mylibrary
 
