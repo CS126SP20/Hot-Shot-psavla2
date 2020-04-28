@@ -47,6 +47,8 @@ void HotShot::UpdateScore() {
   cinder::vec2 center = getWindowCenter();
   if (y_pos >= center.y - y_boundary) {
     space_pressed = false;
+    mouse_pressed = false;
+    cd.clear();
     if (x_pos >= center.x - x_boundary && x_pos <= center.x + x_boundary) {
       score++;
     } else {
@@ -66,17 +68,20 @@ void HotShot::draw() {
     mylibrary::Ball::DrawBall();
   }
 
+
+  if (mouse_pressed) {
+    mylibrary::Ball::MouseMoveBall(cd);
+    UpdateScore();
+  } else {
+    mylibrary::Ball::DrawBall();
+  }
+
   DrawScore();
 
   if (game_state) {
     cinder::gl::clear(background);
     DrawGameOver();
   }
-  /*if (!cd.empty()) {
-    double x = mylibrary::Slope(cd);
-    std::cout << x << std::endl;
-    mylibrary::MoveBall(abs(x));
-  }*/
 
   /*double x = 0;
   if (!cd.empty()) {
@@ -108,6 +113,14 @@ void HotShot::keyDown(KeyEvent event) {
 void HotShot::mouseDrag( MouseEvent event ) {
   //std::cout << event.getPos() << std::endl;
   cd.push_back(event.getPos());
+}
+
+void HotShot::mouseDown(MouseEvent event) {
+  if (event.isRight()) {
+    std::cout << "clicked";
+    mouse_pressed = true;
+    cd.push_back(event.getPos());
+  }
 }
 
 template <typename C>
@@ -147,8 +160,6 @@ void HotShot::DrawGameOver() {
   ss << score;
   PrintText("Game Over :( You scored: " + ss.str() + " points", color, size, {center.x, center.y});
 }
-
-
 
 
 

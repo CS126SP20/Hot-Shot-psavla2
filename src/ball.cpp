@@ -16,6 +16,7 @@ const Color basketball_color = Color(1,0.67,0);
 namespace mylibrary {
 
 double Ball::y_position = 0;
+double Ball::x_position = 400;
 
 void Ball::DrawBall() {
   gl::setMatricesWindow(getWindowSize());
@@ -32,6 +33,39 @@ double Ball::MoveBall() {
     y_position += 5;
   } else {
     y_position = 0;
+  }
+
+  return y_position;
+}
+
+double Ball::MouseMoveBall(std::vector<vec2> cd) {
+  float des_x = cd.back()[0];
+  float des_y = cd.back()[1];
+  float org_x = (getWindowCenter() + vec2(0,250))[0];
+  float org_y = (getWindowCenter() + vec2(0,250))[1];
+  float dx = des_x - org_x;
+  float dy = des_y - org_y;
+  float length = sqrtf(dx*dx+dy*dy);
+  dx/=length;
+  dy/=length;
+  dx *= 2;
+  dy *= 2;
+  gl::setMatricesWindow(getWindowSize());
+  gl::translate(getWindowCenter().x - x_position, y_position);
+  gl::color(basketball_color);
+  gl::drawSolidCircle(getWindowCenter() + vec2(0, 250), 25);
+  std::cout << "X: " << x_position << " Y:" << y_position;
+  if (abs(y_position) <= getWindowCenter().y - 100) {
+    y_position += dy;
+  } else {
+    y_position = 0;
+    //x_position = 400;
+  }
+
+  if (x_position <= getWindowWidth() && x_position >= 0) {
+    x_position -= dx;
+  } else {
+    x_position = 400;
   }
 
   return y_position;
