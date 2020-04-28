@@ -19,7 +19,7 @@ void Board::SetUp() {
       mTexture->bind();
 }
 
-double Board::DrawBoard() {
+double Board::DrawBoard(int score) {
   gl::setMatricesWindow( getWindowSize());
   gl::translate(x_position, getWindowCenter().y - 100);
   gl::color( Color( 1, 1, 1 ) );
@@ -28,7 +28,7 @@ double Board::DrawBoard() {
   gl::draw(mTexture, drawRect);
 
   if (x_position <= getWindowWidth()) {
-    x_position += 0.5;
+    x_position += 0.5 * (0.5 * score + 0.5);
   } else {
     x_position = 0;
   }

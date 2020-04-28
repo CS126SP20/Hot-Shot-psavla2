@@ -50,7 +50,7 @@ void UpdateScore() {
 
 void HotShot::draw() {
   cinder::gl::clear(background);
-  mylibrary::Board::DrawBoard();
+  mylibrary::Board::DrawBoard(score);
   gl::setMatricesWindow( getWindowSize());
   if (space_pressed) {
     mylibrary::Ball::MoveBall();
@@ -58,6 +58,8 @@ void HotShot::draw() {
   } else {
     mylibrary::Ball::DrawBall();
   }
+
+  PrintScore();
   /*if (!cd.empty()) {
     double x = mylibrary::Slope(cd);
     std::cout << x << std::endl;

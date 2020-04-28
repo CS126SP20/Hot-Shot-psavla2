@@ -16,7 +16,7 @@ namespace mylibrary {
   class Board {
    public:
     static void SetUp();
-    static double DrawBoard();
+    static double DrawBoard(int score);
     double Slope(std::vector<vec2> cd);
     static double GetXPos();
    private:
