@@ -1,9 +1,8 @@
 // Copyright (c) 2020 [Your Name]. All rights reserved.
-
+#include <mylibrary/board.h>
 #include <cinder/app/App.h>
 #include <cinder/app/RendererGl.h>
 #include <cinder/gl/gl.h>
-#include <mylibrary/board.h>
 
 using namespace ci;
 using namespace ci::app;
@@ -28,7 +27,7 @@ double Board::DrawBoard(int score) {
   gl::draw(mTexture, drawRect);
 
   if (x_position <= getWindowWidth()) {
-    x_position += 0.5 * (0.5 * score + 0.5);
+    x_position += 0.5 * (0.5 * score + 1);
   } else {
     x_position = 0;
   }

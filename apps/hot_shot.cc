@@ -13,13 +13,15 @@ using namespace ci;
 using namespace ci::app;
 using cinder::app::KeyEvent;
 using std::vector;
+
 const Color background = Color(0.53, 0.81, 0.94);
+const int y_boundary = 100;
+const int x_boundary = 80;
 
 
 namespace myapp {
 
-int score  = 0;
-bool space_pressed = false;
+
 vector<vec2> cd;
 
 HotShot::HotShot() {
@@ -32,19 +34,24 @@ void HotShot::setup() {
 }
 
 void HotShot::update() {
-  PrintScore();
+  DrawScore();
+  if (lives == 0) {
+    std::cout << "Game over";
+    game_state = true;
+  }
 }
 
-void UpdateScore() {
+void HotShot::UpdateScore() {
   double x_pos = mylibrary::Board::GetXPos();
   double y_pos = mylibrary::Ball::GetYPos();
   cinder::vec2 center = getWindowCenter();
-  if (y_pos >= center.y - 100) {
+  if (y_pos >= center.y - y_boundary) {
     space_pressed = false;
-  }
-
-  if (y_pos == center.y - 100 && x_pos >= center.x - 70 && x_pos <= center.x + 70) {
-    score++;
+    if (x_pos >= center.x - x_boundary && x_pos <= center.x + x_boundary) {
+      score++;
+    } else {
+      lives--;
+    }
   }
 }
 
@@ -59,7 +66,12 @@ void HotShot::draw() {
     mylibrary::Ball::DrawBall();
   }
 
-  PrintScore();
+  DrawScore();
+
+  if (game_state) {
+    cinder::gl::clear(background);
+    DrawGameOver();
+  }
   /*if (!cd.empty()) {
     double x = mylibrary::Slope(cd);
     std::cout << x << std::endl;
@@ -118,7 +130,7 @@ void HotShot::PrintText(const std::string& text, const C& color, const cinder::i
   cinder::gl::draw(texture, locp);
 }
 
-void HotShot::PrintScore() {
+void HotShot::DrawScore() {
   const cinder::vec2 center = getWindowCenter();
   const cinder::ivec2 size = {500, 50};
   const Color color = Color::black();
@@ -126,6 +138,16 @@ void HotShot::PrintScore() {
   ss << score;
   PrintText("Score: " + ss.str(), color, size, {center.x - 200, center.y - 300});
 }
+
+void HotShot::DrawGameOver() {
+  const cinder::vec2 center = getWindowCenter();
+  const cinder::ivec2 size = {500, 50};
+  const Color color = Color::black();
+  std::stringstream ss;
+  ss << score;
+  PrintText("Game Over :( You scored: " + ss.str() + " points", color, size, {center.x, center.y});
+}
+
 
 
 
