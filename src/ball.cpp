@@ -54,18 +54,18 @@ double Ball::MouseMoveBall(std::vector<vec2> cd) {
   gl::translate(getWindowCenter().x - x_position, y_position);
   gl::color(basketball_color);
   gl::drawSolidCircle(getWindowCenter() + vec2(0, 250), 25);
-  std::cout << "X: " << x_position << " Y:" << y_position;
   if (abs(y_position) <= getWindowCenter().y - 100) {
     y_position += dy;
   } else {
     y_position = 0;
-    //x_position = 400;
+    x_position = 400;
   }
 
   if (x_position <= getWindowWidth() && x_position >= 0) {
     x_position -= dx;
   } else {
     x_position = 400;
+    y_position = 0;
   }
 
   return y_position;
@@ -73,6 +73,10 @@ double Ball::MouseMoveBall(std::vector<vec2> cd) {
 
 double Ball::GetYPos() {
   return y_position;
+}
+
+double Ball::GetXPos() {
+  return x_position;
 }
 
 }

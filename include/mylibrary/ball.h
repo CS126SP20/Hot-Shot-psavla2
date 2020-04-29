@@ -20,6 +20,7 @@ namespace mylibrary {
     static double MoveBall();
     static double MouseMoveBall(std::vector<vec2> cd);
     static double GetYPos();
+    static double GetXPos();
    private:
     static double y_position;
     static double x_position;

@@ -42,14 +42,18 @@ void HotShot::update() {
 }
 
 void HotShot::UpdateScore() {
-  double x_pos = mylibrary::Board::GetXPos();
-  double y_pos = mylibrary::Ball::GetYPos();
+  double board_x = mylibrary::Board::GetXPos();
+  double ball_y = mylibrary::Ball::GetYPos();
+  double ball_x = mylibrary::Ball::GetXPos();
   cinder::vec2 center = getWindowCenter();
-  if (y_pos >= center.y - y_boundary) {
+  std::cout << "Board X" << board_x << "\n";
+  std::cout << "Ball X" << ball_x << "\n";
+  std::cout << "Ball Y" << ball_y << "\n";
+  if (abs(ball_y)  >= center.y - y_boundary) {
     space_pressed = false;
     mouse_pressed = false;
     cd.clear();
-    if (x_pos >= center.x - x_boundary && x_pos <= center.x + x_boundary) {
+    if (board_x >= getWindowWidth() - ball_x - x_boundary && board_x <= getWindowWidth() - ball_x + x_boundary) {
       score++;
     } else {
       lives--;
