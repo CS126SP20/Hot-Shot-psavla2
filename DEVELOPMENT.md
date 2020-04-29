@@ -14,3 +14,17 @@
    
 - **4/21/20** Added functionality to control the ball with the space key
      - Register score if ball collides with the hoop
+     
+- **4/26/20** Worked on decomposition of function into different classes
+     -Created board/ball classes
+
+- **4/27/20** Added speed feature which makes the board move faster as score increases. Need to:  
+    [ ] Work on mouse-click
+    [ ] Fix score detection
+    
+- **4/28/20** Added speed feature which makes the board move faster as score increases. Need to:  
+    [x] Move ball in direction of mouse click
+    [x] Fix score detection (not hardcoded)
+    
+
+    

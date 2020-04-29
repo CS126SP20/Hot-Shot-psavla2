@@ -31,6 +31,7 @@ private:
     bool game_state = false;
     bool space_pressed = false;
     bool mouse_pressed = false;
+    std::vector<vec2> mouse_dest;
 };
 
 }  // namespace myapp

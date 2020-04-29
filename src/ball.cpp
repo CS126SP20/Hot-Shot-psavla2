@@ -12,6 +12,7 @@ using namespace ci;
 using namespace ci::app;
 
 const Color basketball_color = Color(1,0.67,0);
+const int speed = 2;
 
 namespace mylibrary {
 
@@ -48,8 +49,8 @@ double Ball::MouseMoveBall(std::vector<vec2> cd) {
   float length = sqrtf(dx*dx+dy*dy);
   dx/=length;
   dy/=length;
-  dx *= 2;
-  dy *= 2;
+  dx *= speed;
+  dy *= speed;
   gl::setMatricesWindow(getWindowSize());
   gl::translate(getWindowCenter().x - x_position, y_position);
   gl::color(basketball_color);
@@ -58,13 +59,13 @@ double Ball::MouseMoveBall(std::vector<vec2> cd) {
     y_position += dy;
   } else {
     y_position = 0;
-    x_position = 400;
+    x_position = getWindowWidth()/2;
   }
 
   if (x_position <= getWindowWidth() && x_position >= 0) {
     x_position -= dx;
   } else {
-    x_position = 400;
+    x_position = getWindowWidth()/2;
     y_position = 0;
   }
 

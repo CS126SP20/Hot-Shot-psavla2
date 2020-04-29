@@ -7,6 +7,8 @@
 using namespace ci;
 using namespace ci::app;
 
+const double speed  = 0.5;
+
 namespace mylibrary {
 
 double Board::x_position = 0;
@@ -27,7 +29,7 @@ double Board::DrawBoard(int score) {
   gl::draw(mTexture, drawRect);
 
   if (x_position <= getWindowWidth()) {
-    x_position += 0.5 * (0.5 * score + 1);
+    x_position += 0.5 * (speed * score + 1);
   } else {
     x_position = 0;
   }
@@ -35,7 +37,7 @@ double Board::DrawBoard(int score) {
   return x_position;
 }
 
-double Slope(std::vector<vec2> cd) {
+/*double Slope(std::vector<vec2> cd) {
   float sumx=0,sumy=0,sumxy=0,sumx2=0;
   double a,b;
   int n = cd.size();
@@ -51,7 +53,7 @@ double Slope(std::vector<vec2> cd) {
   b =((n*sumxy-sumx*sumy)*1.0/(n*sumx2-sumx*sumx)*1.0);
   return b;
 
-}
+}*/
 
 double Board::GetXPos() {
   return x_position;

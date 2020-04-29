@@ -21,9 +21,6 @@ const int x_boundary = 80;
 
 namespace myapp {
 
-
-vector<vec2> cd;
-
 HotShot::HotShot() {
 }
 
@@ -46,14 +43,12 @@ void HotShot::UpdateScore() {
   double ball_y = mylibrary::Ball::GetYPos();
   double ball_x = mylibrary::Ball::GetXPos();
   cinder::vec2 center = getWindowCenter();
-  std::cout << "Board X" << board_x << "\n";
-  std::cout << "Ball X" << ball_x << "\n";
-  std::cout << "Ball Y" << ball_y << "\n";
   if (abs(ball_y)  >= center.y - y_boundary) {
     space_pressed = false;
     mouse_pressed = false;
-    cd.clear();
-    if (board_x >= getWindowWidth() - ball_x - x_boundary && board_x <= getWindowWidth() - ball_x + x_boundary) {
+    mouse_dest.clear();
+    if (board_x >= getWindowWidth() - ball_x - x_boundary &&
+    board_x <= getWindowWidth() - ball_x + x_boundary) {
       score++;
     } else {
       lives--;
@@ -74,7 +69,7 @@ void HotShot::draw() {
 
 
   if (mouse_pressed) {
-    mylibrary::Ball::MouseMoveBall(cd);
+    mylibrary::Ball::MouseMoveBall(mouse_dest);
     UpdateScore();
   } else {
     mylibrary::Ball::DrawBall();
@@ -116,14 +111,14 @@ void HotShot::keyDown(KeyEvent event) {
 
 void HotShot::mouseDrag( MouseEvent event ) {
   //std::cout << event.getPos() << std::endl;
-  cd.push_back(event.getPos());
+  mouse_dest.push_back(event.getPos());
 }
 
 void HotShot::mouseDown(MouseEvent event) {
   if (event.isRight()) {
     std::cout << "clicked";
     mouse_pressed = true;
-    cd.push_back(event.getPos());
+    mouse_dest.push_back(event.getPos());
   }
 }
 
