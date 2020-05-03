@@ -16,7 +16,6 @@ class HotShot : public cinder::app::App {
   void update() override;
   void draw() override;
   void keyDown(cinder::app::KeyEvent) override;
-  // void mouseMove(cinder::app::MouseEvent event);
   void UpdateScore();
   template <typename C>
   void PrintText(const std::string& text, const C& color, const cinder::ivec2& size,
@@ -28,10 +27,9 @@ class HotShot : public cinder::app::App {
 private:
     size_t score  = 0;
     size_t lives  = 3;
-    bool game_state = false;
-    bool space_pressed = false;
-    bool mouse_pressed = false;
-    std::vector<vec2> mouse_dest;
+    bool is_game_finished = false;
+    bool is_shot_in_progress = false;
+    vec2 mouse_dest;
 };
 
 }  // namespace myapp

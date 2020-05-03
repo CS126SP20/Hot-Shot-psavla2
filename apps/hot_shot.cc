@@ -16,9 +16,7 @@ using cinder::app::KeyEvent;
 using std::vector;
 
 const Color background = Color(0.53, 0.81, 0.94);
-const int y_boundary = 100;
-//const int x_boundary = 80;
-
+//const int y_boundary = 100;
 
 namespace myapp {
 
@@ -34,6 +32,7 @@ void HotShot::setup() {
   mylibrary::Board::SetUp();
   gl::enableDepthWrite();
   gl::enableDepthRead();
+  mouse_dest = vec2(0,250);
   cinder::audio::SourceFileRef aud = cinder::audio::load(cinder::app::loadAsset("game_audio.wav"));
   mVoice = cinder::audio::Voice::create(aud);
   mVoice->start();
@@ -42,7 +41,7 @@ void HotShot::setup() {
 void HotShot::update() {
   DrawScore();
   if (lives == 0) {
-    game_state = true;
+    is_game_finished = true;
   }
 }
 
@@ -50,9 +49,8 @@ void HotShot::UpdateScore() {
   double ball_y = ball.GetYPos();
   double ball_x = ball.GetXPos();
   cinder::vec2 center = getWindowCenter();
-  if (abs(ball_y)  >= center.y - y_boundary) {
-    mouse_pressed = false;
-    mouse_dest.clear();
+  if (abs(ball_y) >= board.GetYPos()) {
+    is_shot_in_progress = false;
     if (board.GetShotOutcome(ball_x)) {
       score++;
       SwishSound();
@@ -66,16 +64,9 @@ void HotShot::draw() {
   cinder::gl::clear(background);
   board.DrawBoard(score);
   gl::setMatricesWindow( getWindowSize());
-  if (space_pressed) {
-    mylibrary::Ball::MoveBall();
-    UpdateScore();
-  } else {
-    mylibrary::Ball::DrawBall();
-  }
 
-
-  if (mouse_pressed) {
-    ball.MouseMoveBall(mouse_dest);
+  if (is_shot_in_progress) {
+    ball.MoveBall(mouse_dest);
     UpdateScore();
   } else {
     ball.DrawBall();
@@ -83,23 +74,19 @@ void HotShot::draw() {
 
   DrawScore();
 
-  if (game_state) {
+  if (is_game_finished) {
     cinder::gl::clear(background);
     DrawGameOver();
   }
 }
 
 void HotShot::keyDown(KeyEvent event) {
-  if (event.getCode() == KeyEvent::KEY_SPACE) {
-    space_pressed = true;
-  }
 }
 
 void HotShot::mouseDown(MouseEvent event) {
   if (event.isRight()) {
-    std::cout << "clicked";
-    mouse_pressed = true;
-    mouse_dest.push_back(event.getPos());
+    is_shot_in_progress = true;
+    mouse_dest = event.getPos();
   }
 }
 
@@ -132,19 +119,26 @@ void HotShot::DrawScore() {
   const cinder::vec2 center = getWindowCenter();
   const cinder::ivec2 size = {500, 50};
   const Color color = Color::black();
+  const Color o = Color(1,0.67,0);
   std::stringstream ss;
   ss << score;
   PrintText("Score: " + ss.str(), color, size, {center.x - 200, center.y - 300});
+  std::stringstream ff;
+  for (int i = 0; i < lives; i++) {
+    ff << "🏀";
+  }
+  PrintText("Lives: " + ff.str(),o, size, {center.x - 200, center.y - 200});
 }
 
 void HotShot::DrawGameOver() {
-  //mVoice->stop();
+  mVoice->stop();
   const cinder::vec2 center = getWindowCenter();
   const cinder::ivec2 size = {500, 50};
   const Color color = Color::black();
   std::stringstream ss;
   ss << score;
   PrintText("Game Over :( You scored: " + ss.str() + " points", color, size, {center.x, center.y});
+
 }
 
 

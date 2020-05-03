@@ -13,41 +13,29 @@ using namespace ci::app;
 
 const Color basketball_color = Color(1,0.67,0);
 const int speed = 2;
+const vec2 start_position = vec2(0,250);
 
 namespace mylibrary {
 
-double Ball::y_position = 0;
-double Ball::x_position = 400;
+//double Ball::y_position = 0;
+//double Ball::x_position = 400;
 
 Ball::Ball() {
-
+  y_position = 0;
+  x_position = 400;
 }
 
 void Ball::DrawBall() {
   gl::setMatricesWindow(getWindowSize());
   gl::color(basketball_color);
-  gl::drawSolidCircle(getWindowCenter() + vec2(0, 250), 25);
+  gl::drawSolidCircle(getWindowCenter() + start_position, 25);
 }
 
-double Ball::MoveBall() {
-  gl::setMatricesWindow(getWindowSize());
-  gl::translate(getWindowCenter().x - 400, -y_position);
-  gl::color(basketball_color);
-  gl::drawSolidCircle(getWindowCenter() + vec2(0, 250), 25);
-  if (y_position <= getWindowCenter().y - 100) {
-    y_position += 5;
-  } else {
-    y_position = 0;
-  }
-
-  return y_position;
-}
-
-double Ball::MouseMoveBall(std::vector<vec2> cd) {
-  float des_x = cd.back()[0];
-  float des_y = cd.back()[1];
-  float org_x = (getWindowCenter() + vec2(0,250))[0];
-  float org_y = (getWindowCenter() + vec2(0,250))[1];
+double Ball::MoveBall(vec2 dest) {
+  float des_x = dest[0];
+  float des_y = dest[1];
+  float org_x = (getWindowCenter() + start_position)[0];
+  float org_y = (getWindowCenter() + start_position)[1];
   float dx = des_x - org_x;
   float dy = des_y - org_y;
   float length = sqrtf(dx*dx+dy*dy);
@@ -59,7 +47,7 @@ double Ball::MouseMoveBall(std::vector<vec2> cd) {
   gl::pushMatrices();
   gl::translate(getWindowCenter().x - x_position, y_position);
   gl::color(basketball_color);
-  gl::drawSolidCircle(getWindowCenter() + vec2(0, 250), 25);
+  gl::drawSolidCircle(getWindowCenter() + start_position, 25);
   gl::popMatrices();
   if (abs(y_position) <= getWindowCenter().y - 100) {
     y_position += dy;

@@ -8,15 +8,14 @@ using namespace ci;
 using namespace ci::app;
 
 const double speed  = 0.5;
+const double x_boundary = 80;
 
 namespace mylibrary {
 
-double Board::x_position = 0;
-double x_boundary = 80;
 gl::TextureRef mTexture;
 
 Board::Board() {
-
+  x_position = 0;
 }
 void Board::SetUp() {
       auto img = loadImage( loadAsset( "basketball.png" ) );
@@ -55,6 +54,10 @@ bool Board::GetShotOutcome(double x) {
   } else {
     return false;
   }
+}
+
+double Board::GetYPos() {
+  return getWindowCenter().y - 100;
 }
 
 }  // namespace mylibrary
