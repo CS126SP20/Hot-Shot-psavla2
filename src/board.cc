@@ -12,8 +12,12 @@ const double speed  = 0.5;
 namespace mylibrary {
 
 double Board::x_position = 0;
+double x_boundary = 80;
 gl::TextureRef mTexture;
 
+Board::Board() {
+
+}
 void Board::SetUp() {
       auto img = loadImage( loadAsset( "basketball.png" ) );
       mTexture = gl::Texture::create( img );
@@ -37,26 +41,20 @@ double Board::DrawBoard(int score) {
   return x_position;
 }
 
-/*double Slope(std::vector<vec2> cd) {
-  float sumx=0,sumy=0,sumxy=0,sumx2=0;
-  double a,b;
-  int n = cd.size();
-  for(int i=0;i<=n;i++)
-  {
-    sumx = sumx + cd[i][0];
-    sumx2 = sumx2 +cd[i][0] * cd[i][0];
-    sumy = sumy + cd[i][1];
-    sumxy = sumxy + cd[i][1]*cd[i][0];
-
-  }
-  a =((sumx2*sumy -sumx*sumxy)*1.0/(n*sumx2-sumx*sumx)*1.0);
-  b =((n*sumxy-sumx*sumy)*1.0/(n*sumx2-sumx*sumx)*1.0);
-  return b;
-
-}*/
-
 double Board::GetXPos() {
   return x_position;
+}
+
+bool Board::GetShotOutcome(double x) {
+  cinder::vec2 center = getWindowCenter();
+  double board_x = x_position;
+  double ball_x = x;
+  if (board_x >= getWindowWidth() - ball_x - x_boundary &&
+      board_x <= getWindowWidth() - ball_x + x_boundary) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 }  // namespace mylibrary

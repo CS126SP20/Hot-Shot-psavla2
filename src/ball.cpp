@@ -19,6 +19,10 @@ namespace mylibrary {
 double Ball::y_position = 0;
 double Ball::x_position = 400;
 
+Ball::Ball() {
+
+}
+
 void Ball::DrawBall() {
   gl::setMatricesWindow(getWindowSize());
   gl::color(basketball_color);

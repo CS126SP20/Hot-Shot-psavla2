@@ -16,6 +16,7 @@ using namespace ci::app;
 namespace mylibrary {
   class Ball {
    public:
+    Ball();
     static void DrawBall();
     static double MoveBall();
     static double MouseMoveBall(std::vector<vec2> cd);

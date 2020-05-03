@@ -15,10 +15,11 @@ using namespace ci::app;
 namespace mylibrary {
   class Board {
    public:
+    Board();
     static void SetUp();
     static double DrawBoard(int score);
-    double Slope(std::vector<vec2> cd);
     static double GetXPos();
+    bool GetShotOutcome(double x);
    private:
     static double x_position;
   };

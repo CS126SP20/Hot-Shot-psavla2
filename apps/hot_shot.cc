@@ -17,13 +17,15 @@ using std::vector;
 
 const Color background = Color(0.53, 0.81, 0.94);
 const int y_boundary = 100;
-const int x_boundary = 80;
+//const int x_boundary = 80;
 
 
 namespace myapp {
 
 cinder::audio::VoiceRef mVoice;
 cinder::audio::VoiceRef dVoice;
+mylibrary::Ball ball = mylibrary::Ball();
+mylibrary::Board board = mylibrary::Board();
 
 HotShot::HotShot() {
 }
@@ -32,9 +34,9 @@ void HotShot::setup() {
   mylibrary::Board::SetUp();
   gl::enableDepthWrite();
   gl::enableDepthRead();
-  //cinder::audio::SourceFileRef aud = cinder::audio::load(cinder::app::loadAsset("game_audio.wav"));
-  //mVoice = cinder::audio::Voice::create(aud);
-  //mVoice->start();
+  cinder::audio::SourceFileRef aud = cinder::audio::load(cinder::app::loadAsset("game_audio.wav"));
+  mVoice = cinder::audio::Voice::create(aud);
+  mVoice->start();
 }
 
 void HotShot::update() {
@@ -45,16 +47,13 @@ void HotShot::update() {
 }
 
 void HotShot::UpdateScore() {
-  double board_x = mylibrary::Board::GetXPos();
-  double ball_y = mylibrary::Ball::GetYPos();
-  double ball_x = mylibrary::Ball::GetXPos();
+  double ball_y = ball.GetYPos();
+  double ball_x = ball.GetXPos();
   cinder::vec2 center = getWindowCenter();
   if (abs(ball_y)  >= center.y - y_boundary) {
-    space_pressed = false;
     mouse_pressed = false;
     mouse_dest.clear();
-    if (board_x >= getWindowWidth() - ball_x - x_boundary &&
-    board_x <= getWindowWidth() - ball_x + x_boundary) {
+    if (board.GetShotOutcome(ball_x)) {
       score++;
       SwishSound();
     } else {
@@ -65,7 +64,7 @@ void HotShot::UpdateScore() {
 
 void HotShot::draw() {
   cinder::gl::clear(background);
-  mylibrary::Board::DrawBoard(score);
+  board.DrawBoard(score);
   gl::setMatricesWindow( getWindowSize());
   if (space_pressed) {
     mylibrary::Ball::MoveBall();
@@ -76,10 +75,10 @@ void HotShot::draw() {
 
 
   if (mouse_pressed) {
-    mylibrary::Ball::MouseMoveBall(mouse_dest);
+    ball.MouseMoveBall(mouse_dest);
     UpdateScore();
   } else {
-    mylibrary::Ball::DrawBall();
+    ball.DrawBall();
   }
 
   DrawScore();
@@ -88,37 +87,12 @@ void HotShot::draw() {
     cinder::gl::clear(background);
     DrawGameOver();
   }
-
-  /*double x = 0;
-  if (!cd.empty()) {
-    x = mylibrary::Slope(cd);
-    std::cout << "SLOPE: " << x << "\n";
-  }
-
-  gl::setMatricesWindow( getWindowSize());
-  if (abs(ypos) <= 400) {
-    ypos += x;
-    xpos += 0.5;
-  } else {
-    ypos = 0;
-    xpos = 0;
-    cd.clear();
-  }
-  gl::translate(xpos, ypos);
-  std::cout << "YPOS: " << ypos << "\n";
-  gl::color( Color( 1, 0.67, 0.67 ) );
-  gl::drawSolidCircle( getWindowCenter() + vec2(0, 250), 25 );*/
 }
 
 void HotShot::keyDown(KeyEvent event) {
   if (event.getCode() == KeyEvent::KEY_SPACE) {
     space_pressed = true;
   }
-}
-
-void HotShot::mouseDrag( MouseEvent event ) {
-  //std::cout << event.getPos() << std::endl;
-  mouse_dest.push_back(event.getPos());
 }
 
 void HotShot::mouseDown(MouseEvent event) {
