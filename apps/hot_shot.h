@@ -25,9 +25,10 @@ class HotShot : public cinder::app::App {
   void DrawScore();
   void DrawGameOver();
   void mouseDown(MouseEvent event);
+  void SwishSound();
 private:
-    int score  = 0;
-    int lives  = 3;
+    size_t score  = 0;
+    size_t lives  = 3;
     bool game_state = false;
     bool space_pressed = false;
     bool mouse_pressed = false;

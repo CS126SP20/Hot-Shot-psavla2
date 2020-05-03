@@ -52,9 +52,11 @@ double Ball::MouseMoveBall(std::vector<vec2> cd) {
   dx *= speed;
   dy *= speed;
   gl::setMatricesWindow(getWindowSize());
+  gl::pushMatrices();
   gl::translate(getWindowCenter().x - x_position, y_position);
   gl::color(basketball_color);
   gl::drawSolidCircle(getWindowCenter() + vec2(0, 250), 25);
+  gl::popMatrices();
   if (abs(y_position) <= getWindowCenter().y - 100) {
     y_position += dy;
   } else {
