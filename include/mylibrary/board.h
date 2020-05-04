@@ -17,12 +17,14 @@ namespace mylibrary {
    public:
     Board();
     static void SetUp();
-    double DrawBoard(int score);
+    void DrawBoard();
+    void UpdatePos(int score);
     double GetXPos();
     double GetYPos();
     bool GetShotOutcome(double x);
    private:
     double x_position;
+    double y_position;
   };
 
 }  // namespace mylibrary

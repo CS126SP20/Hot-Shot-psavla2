@@ -16,7 +16,6 @@ using cinder::app::KeyEvent;
 using std::vector;
 
 const Color background = Color(0.53, 0.81, 0.94);
-//const int y_boundary = 100;
 
 namespace myapp {
 
@@ -39,7 +38,9 @@ void HotShot::setup() {
 }
 
 void HotShot::update() {
-  DrawScore();
+  board.UpdatePos(score);
+  ball.UpdatePos(mouse_dest);
+  UpdateScore();
   if (lives == 0) {
     is_game_finished = true;
   }
@@ -62,14 +63,14 @@ void HotShot::UpdateScore() {
 
 void HotShot::draw() {
   cinder::gl::clear(background);
-  board.DrawBoard(score);
+  board.DrawBoard();
   gl::setMatricesWindow( getWindowSize());
 
   if (is_shot_in_progress) {
-    ball.MoveBall(mouse_dest);
-    UpdateScore();
-  } else {
     ball.DrawBall();
+    //UpdateScore();
+  } else {
+    ball.SetBall();
   }
 
   DrawScore();

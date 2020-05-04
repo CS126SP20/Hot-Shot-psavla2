@@ -17,13 +17,13 @@ gl::TextureRef mTexture;
 Board::Board() {
   x_position = 0;
 }
-void Board::SetUp() {
-      auto img = loadImage( loadAsset( "basketball.png" ) );
+void Board::SetUp()   {
+      auto img = loadImage( loadAsset( "basketball.png" ));
       mTexture = gl::Texture::create( img );
       mTexture->bind();
 }
 
-double Board::DrawBoard(int score) {
+void Board::DrawBoard() {
   gl::setMatricesWindow( getWindowSize());
   gl::translate(x_position, getWindowCenter().y - 100);
   gl::color( Color( 1, 1, 1 ) );
@@ -31,15 +31,15 @@ double Board::DrawBoard(int score) {
                   mTexture->getHeight() / 12 );
   gl::draw(mTexture, drawRect);
 
+}
+
+void Board::UpdatePos(int score) {
   if (x_position <= getWindowWidth()) {
     x_position += 0.5 * (speed * score + 1);
   } else {
     x_position = 0;
   }
-
-  return x_position;
 }
-
 double Board::GetXPos() {
   return x_position;
 }

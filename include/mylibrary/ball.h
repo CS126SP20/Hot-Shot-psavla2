@@ -18,13 +18,16 @@ namespace mylibrary {
   class Ball {
    public:
     Ball();
+    void SetBall();
     void DrawBall();
-    double MoveBall(vec2 dest);
     double GetYPos();
     double GetXPos();
+    void UpdatePos(vec2 dest);
    private:
     double y_position;
     double x_position;
+    float dx;
+    float dy;
   };
 }
 #endif  // FINALPROJECT_BALL_H

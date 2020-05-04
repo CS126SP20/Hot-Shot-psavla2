@@ -17,38 +17,26 @@ const vec2 start_position = vec2(0,250);
 
 namespace mylibrary {
 
-//double Ball::y_position = 0;
-//double Ball::x_position = 400;
-
 Ball::Ball() {
   y_position = 0;
   x_position = 400;
+  dx, dy = 0;
 }
 
-void Ball::DrawBall() {
+void Ball::SetBall() {
   gl::setMatricesWindow(getWindowSize());
   gl::color(basketball_color);
   gl::drawSolidCircle(getWindowCenter() + start_position, 25);
 }
 
-double Ball::MoveBall(vec2 dest) {
-  float des_x = dest[0];
-  float des_y = dest[1];
-  float org_x = (getWindowCenter() + start_position)[0];
-  float org_y = (getWindowCenter() + start_position)[1];
-  float dx = des_x - org_x;
-  float dy = des_y - org_y;
-  float length = sqrtf(dx*dx+dy*dy);
-  dx/=length;
-  dy/=length;
-  dx *= speed;
-  dy *= speed;
+void Ball::DrawBall() {
   gl::setMatricesWindow(getWindowSize());
   gl::pushMatrices();
   gl::translate(getWindowCenter().x - x_position, y_position);
   gl::color(basketball_color);
   gl::drawSolidCircle(getWindowCenter() + start_position, 25);
   gl::popMatrices();
+
   if (abs(y_position) <= getWindowCenter().y - 100) {
     y_position += dy;
   } else {
@@ -62,8 +50,25 @@ double Ball::MoveBall(vec2 dest) {
     x_position = getWindowWidth()/2;
     y_position = 0;
   }
+}
 
-  return y_position;
+void Ball::UpdatePos(vec2 dest) {
+  float des_x = dest[0];
+  float des_y = dest[1];
+  float org_x = (getWindowCenter() + start_position)[0];
+  float org_y = (getWindowCenter() + start_position)[1];
+  dx = des_x - org_x;
+  dy = des_y - org_y;
+  float length = sqrtf(dx*dx+dy*dy);
+  dx = des_x - org_x;
+  dy = des_y - org_y;
+  dx/=length;
+  dy/=length;
+  std::cout << "NORMALIZE:" << normalize(vec2(dx,dy));
+  std::cout << dx << " / " << dy << std::endl;
+  std::cout << "r: " << dest.r << "\n";
+  dx *= speed;
+  dy *= speed;
 }
 
 double Ball::GetYPos() {
