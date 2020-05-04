@@ -17,7 +17,7 @@ namespace mylibrary {
    public:
     Board();
     static void SetUp();
-    void DrawBoard();
+    void DrawBoard() const;
     void UpdatePos(int score);
     double GetXPos();
     double GetYPos();

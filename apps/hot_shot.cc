@@ -21,10 +21,12 @@ namespace myapp {
 
 cinder::audio::VoiceRef mVoice;
 cinder::audio::VoiceRef dVoice;
-mylibrary::Ball ball = mylibrary::Ball();
-mylibrary::Board board = mylibrary::Board();
+mylibrary::Ball ball;
+mylibrary::Board board;
 
 HotShot::HotShot() {
+  ball = mylibrary::Ball();
+  board = mylibrary::Board();
 }
 
 void HotShot::setup() {
@@ -40,7 +42,7 @@ void HotShot::setup() {
 void HotShot::update() {
   board.UpdatePos(score);
   ball.UpdatePos(mouse_dest);
-  //UpdateScore();
+
   if (lives == 0) {
     is_game_finished = true;
   }
@@ -63,6 +65,7 @@ void HotShot::UpdateScore() {
 
 void HotShot::draw() {
   cinder::gl::clear(background);
+  DrawTitle();
   board.DrawBoard();
   gl::setMatricesWindow( getWindowSize());
 
@@ -81,9 +84,6 @@ void HotShot::draw() {
   }
 }
 
-void HotShot::keyDown(KeyEvent event) {
-}
-
 void HotShot::mouseDown(MouseEvent event) {
   if (event.isRight()) {
     is_shot_in_progress = true;
@@ -95,7 +95,6 @@ template <typename C>
 void HotShot::PrintText(const std::string& text, const C& color, const cinder::ivec2& size,
                         const cinder::vec2& loc) {
   cinder::gl::color(color);
-
   auto box = TextBox()
       .alignment(TextBox::CENTER)
       .font(cinder::Font("Arial", 30))
@@ -118,17 +117,23 @@ void HotShot::SwishSound() {
 }
 void HotShot::DrawScore() {
   const cinder::vec2 center = getWindowCenter();
-  const cinder::ivec2 size = {500, 50};
-  const Color color = Color::black();
-  const Color o = Color(1,0.67,0);
+  const cinder::ivec2 size = {400, 40};
+  const Color color = Color(1,0.67,0);
   std::stringstream ss;
   ss << score;
-  PrintText("Score: " + ss.str(), color, size, {center.x - 200, center.y - 300});
   std::stringstream ff;
   for (int i = 0; i < lives; i++) {
     ff << "🏀";
   }
-  PrintText("Lives: " + ff.str(),o, size, {center.x - 200, center.y - 200});
+  PrintText("Score: " + ss.str() + "            Lives: " + ff.str(), color, size, {center.x - 200, center.y - 200});
+}
+
+void HotShot::DrawTitle() {
+  const cinder::vec2 center = getWindowCenter();
+  const cinder::ivec2 size = {500, 50};
+  const Color color = Color(1,0.67,0);
+  PrintText("HOT SHOT 🏀🔥", color, size, {center.x, center.y - 300});
+
 }
 
 void HotShot::DrawGameOver() {
@@ -141,8 +146,6 @@ void HotShot::DrawGameOver() {
   PrintText("Game Over :( You scored: " + ss.str() + " points", color, size, {center.x, center.y});
 
 }
-
-
 
 }  // namespace myapp
 

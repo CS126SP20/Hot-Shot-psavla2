@@ -18,7 +18,7 @@ namespace mylibrary {
   class Ball {
    public:
     Ball();
-    void SetBall();
+    void SetBall() const;
     void DrawBall();
     double GetYPos();
     double GetXPos();

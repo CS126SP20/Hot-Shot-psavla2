@@ -15,12 +15,12 @@ class HotShot : public cinder::app::App {
   void setup() override;
   void update() override;
   void draw() override;
-  void keyDown(cinder::app::KeyEvent) override;
   void UpdateScore();
   template <typename C>
   void PrintText(const std::string& text, const C& color, const cinder::ivec2& size,
                          const cinder::vec2& loc);
   void DrawScore();
+  void DrawTitle();
   void DrawGameOver();
   void mouseDown(MouseEvent event);
   void SwishSound();

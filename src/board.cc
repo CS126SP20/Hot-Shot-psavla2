@@ -23,7 +23,7 @@ void Board::SetUp()   {
       mTexture->bind();
 }
 
-void Board::DrawBoard() {
+void Board::DrawBoard() const {
   gl::setMatricesWindow( getWindowSize());
   gl::translate(x_position, getWindowCenter().y - 100);
   gl::color( Color( 1, 1, 1 ) );

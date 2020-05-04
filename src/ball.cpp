@@ -23,7 +23,7 @@ Ball::Ball() {
   dx, dy = 0;
 }
 
-void Ball::SetBall() {
+void Ball::SetBall() const {
   gl::setMatricesWindow(getWindowSize());
   gl::color(basketball_color);
   gl::drawSolidCircle(getWindowCenter() + start_position, 25);
@@ -50,6 +50,7 @@ void Ball::DrawBall() {
     x_position = getWindowWidth()/2;
     y_position = 0;
   }
+
 }
 
 void Ball::UpdatePos(vec2 dest) {
