@@ -57,16 +57,8 @@ void Ball::UpdatePos(vec2 dest) {
   float des_y = dest[1];
   float org_x = (getWindowCenter() + start_position)[0];
   float org_y = (getWindowCenter() + start_position)[1];
-  dx = des_x - org_x;
-  dy = des_y - org_y;
-  float length = sqrtf(dx*dx+dy*dy);
-  dx = des_x - org_x;
-  dy = des_y - org_y;
-  dx/=length;
-  dy/=length;
-  std::cout << "NORMALIZE:" << normalize(vec2(dx,dy));
-  std::cout << dx << " / " << dy << std::endl;
-  std::cout << "r: " << dest.r << "\n";
+  dx = normalize(vec2(des_x - org_x,des_y - org_y))[0];
+  dy = normalize(vec2(des_x - org_x,des_y - org_y))[1];
   dx *= speed;
   dy *= speed;
 }
