@@ -11,9 +11,16 @@ using namespace cinder;
 using namespace ci;
 using namespace ci::app;
 
+/** color for basketball **/
 const Color basketball_color = Color(1,0.67,0);
+/** speed of ball shot **/
 const int speed = 2;
+/**starting position of ball **/
 const vec2 start_position = vec2(0,250);
+/** ball radius **/
+const int ball_radius = 25;
+/** vertical y offset for board **/
+const int vert_y_offset = 100;
 
 namespace mylibrary {
 
@@ -26,7 +33,7 @@ Ball::Ball() {
 void Ball::SetBall() const {
   gl::setMatricesWindow(getWindowSize());
   gl::color(basketball_color);
-  gl::drawSolidCircle(getWindowCenter() + start_position, 25);
+  gl::drawSolidCircle(getWindowCenter() + start_position, ball_radius);
 }
 
 void Ball::DrawBall() {
@@ -34,10 +41,10 @@ void Ball::DrawBall() {
   gl::pushMatrices();
   gl::translate(getWindowCenter().x - x_position, y_position);
   gl::color(basketball_color);
-  gl::drawSolidCircle(getWindowCenter() + start_position, 25);
+  gl::drawSolidCircle(getWindowCenter() + start_position, ball_radius);
   gl::popMatrices();
 
-  if (abs(y_position) <= getWindowCenter().y - 100) {
+  if (abs(y_position) <= getWindowCenter().y - vert_y_offset) {
     y_position += dy;
   } else {
     y_position = 0;

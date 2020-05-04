@@ -1,4 +1,4 @@
-// Copyright (c) 2020 [Your Name]. All rights reserved.
+// Copyright (c) 2020 Parth Savla. All rights reserved.
 
 #include "hot_shot.h"
 #include <cinder/app/App.h>
@@ -6,7 +6,6 @@
 #include <cinder/gl/gl.h>
 #include "mylibrary/ball.h"
 #include <cinder/audio/Voice.h>
-
 #include <cmath>
 #include <vector>
 
@@ -15,51 +14,53 @@ using namespace ci::app;
 using cinder::app::KeyEvent;
 using std::vector;
 
+/** background color for game **/
 const Color background = Color(0.53, 0.81, 0.94);
+/** orange color **/
+const Color orange = Color(1,0.67,0);
+/** ball's starting position **/
+const vec2 ball_start_position = vec2(0,250);
+/** size of the font*/
+const cinder::ivec2 font_size = {500, 50};
+/** score location on screen **/
+const int score_loc = 200;
+/** title location on screen **/
+const int title_loc = 300;
 
 namespace myapp {
 
-cinder::audio::VoiceRef mVoice;
-cinder::audio::VoiceRef dVoice;
+/** voice ref object **/
+cinder::audio::VoiceRef background_audio;
+/** voice ref object **/
+cinder::audio::VoiceRef basket_made_sound;
+/** ball object **/
 mylibrary::Ball ball;
+/** board object **/
 mylibrary::Board board;
 
+
 HotShot::HotShot() {
-  ball = mylibrary::Ball();
-  board = mylibrary::Board();
+
 }
 
 void HotShot::setup() {
+  ball = mylibrary::Ball();
+  board = mylibrary::Board();
   mylibrary::Board::SetUp();
   gl::enableDepthWrite();
   gl::enableDepthRead();
-  mouse_dest = vec2(0,250);
-  cinder::audio::SourceFileRef aud = cinder::audio::load(cinder::app::loadAsset("game_audio.wav"));
-  mVoice = cinder::audio::Voice::create(aud);
-  mVoice->start();
+  mouse_dest = ball_start_position;
+  cinder::audio::SourceFileRef aud = cinder::audio::
+      load(cinder::app::loadAsset("game_audio.wav"));
+  background_audio = cinder::audio::Voice::create(aud);
+  background_audio->start();
 }
 
 void HotShot::update() {
   board.UpdatePos(score);
   ball.UpdatePos(mouse_dest);
-
   if (lives == 0) {
     is_game_finished = true;
-  }
-}
-
-void HotShot::UpdateScore() {
-  double ball_y = ball.GetYPos();
-  double ball_x = ball.GetXPos();
-  cinder::vec2 center = getWindowCenter();
-  if (abs(ball_y) >= board.GetYPos()) {
-    is_shot_in_progress = false;
-    if (board.GetShotOutcome(ball_x)) {
-      score++;
-      SwishSound();
-    } else {
-      lives--;
-    }
   }
 }
 
@@ -91,9 +92,24 @@ void HotShot::mouseDown(MouseEvent event) {
   }
 }
 
+void HotShot::UpdateScore() {
+  double ball_y = ball.GetYPos();
+  double ball_x = ball.GetXPos();
+  cinder::vec2 center = getWindowCenter();
+  if (abs(ball_y) >= board.GetYPos()) {
+    is_shot_in_progress = false;
+    if (board.GetShotOutcome(ball_x)) {
+      score++;
+      SwishSound();
+    } else {
+      lives--;
+    }
+  }
+}
+
 template <typename C>
-void HotShot::PrintText(const std::string& text, const C& color, const cinder::ivec2& size,
-                        const cinder::vec2& loc) {
+void HotShot::PrintText(const std::string& text, const C& color, const
+cinder::ivec2& size, const cinder::vec2& loc) {
   cinder::gl::color(color);
   auto box = TextBox()
       .alignment(TextBox::CENTER)
@@ -104,46 +120,46 @@ void HotShot::PrintText(const std::string& text, const C& color, const cinder::i
       .text(text);
 
   const auto box_size = box.getSize();
-  const cinder::vec2 locp = {loc.x - box_size.x / 2, loc.y - box_size.y / 2};
+  const cinder::vec2 new_loc = {loc.x - box_size.x / 2,
+                                loc.y - box_size.y / 2};
   const auto surface = box.render();
   const auto texture = cinder::gl::Texture::create(surface);
-  cinder::gl::draw(texture, locp);
+  cinder::gl::draw(texture, new_loc);
 }
 
 void HotShot::SwishSound() {
-  cinder::audio::SourceFileRef swish = cinder::audio::load(cinder::app::loadAsset("ball.wav"));
-  dVoice = cinder::audio::Voice::create(swish);
-  dVoice->start();
+  cinder::audio::SourceFileRef swish = cinder::audio::
+      load(cinder::app::loadAsset("ball.wav"));
+  basket_made_sound = cinder::audio::Voice::create(swish);
+  basket_made_sound->start();
 }
 void HotShot::DrawScore() {
   const cinder::vec2 center = getWindowCenter();
-  const cinder::ivec2 size = {400, 40};
-  const Color color = Color(1,0.67,0);
-  std::stringstream ss;
-  ss << score;
-  std::stringstream ff;
+  std::stringstream score_stream;
+  score_stream << score;
+  std::stringstream life_stream;
   for (int i = 0; i < lives; i++) {
-    ff << "🏀";
+    life_stream << "🏀";
   }
-  PrintText("Score: " + ss.str() + "            Lives: " + ff.str(), color, size, {center.x - 200, center.y - 200});
+  PrintText("Score: " + score_stream.str() + "            Lives: " +
+  life_stream.str(), orange, font_size,
+  {center.x - score_loc, center.y - score_loc});
 }
 
 void HotShot::DrawTitle() {
   const cinder::vec2 center = getWindowCenter();
-  const cinder::ivec2 size = {500, 50};
-  const Color color = Color(1,0.67,0);
-  PrintText("HOT SHOT 🏀🔥", color, size, {center.x, center.y - 300});
-
+  PrintText("HOT SHOT 🏀🔥", orange, font_size,
+      {center.x, center.y - title_loc});
 }
 
 void HotShot::DrawGameOver() {
-  mVoice->stop();
   const cinder::vec2 center = getWindowCenter();
-  const cinder::ivec2 size = {500, 50};
+  background_audio->stop();
   const Color color = Color::black();
-  std::stringstream ss;
-  ss << score;
-  PrintText("Game Over :( You scored: " + ss.str() + " points", color, size, {center.x, center.y});
+  std::stringstream score_stream;
+  score_stream << score;
+  PrintText("Game Over :( You scored: " + score_stream.str() + " points",
+      color, font_size, {center.x, center.y});
 
 }
 

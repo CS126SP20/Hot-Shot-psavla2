@@ -1,4 +1,4 @@
-// Copyright (c) 2020 [Your Name]. All rights reserved.
+// Copyright (c) 2020 Parth Savla. All rights reserved.
 #include <mylibrary/board.h>
 #include <cinder/app/App.h>
 #include <cinder/app/RendererGl.h>
@@ -7,41 +7,45 @@
 using namespace ci;
 using namespace ci::app;
 
+/** speed multiplier for board **/
 const double speed  = 0.5;
+/** x position error when checking if shot is made **/
 const double x_boundary = 80;
+/** vertical y offset for board **/
+const int vert_y_offset = 100;
+/** board image scaling factor **/
+const int scale_factor = 12;
 
 namespace mylibrary {
 
-gl::TextureRef mTexture;
+/** Texture ref object **/
+gl::TextureRef board_texture;
 
 Board::Board() {
   x_position = 0;
 }
 void Board::SetUp()   {
-      auto img = loadImage( loadAsset( "basketball.png" ));
-      mTexture = gl::Texture::create( img );
-      mTexture->bind();
+      auto img = loadImage( loadAsset( "basketball.png"));
+      board_texture = gl::Texture::create( img );
+      board_texture->bind();
 }
 
 void Board::DrawBoard() const {
   gl::setMatricesWindow( getWindowSize());
-  gl::translate(x_position, getWindowCenter().y - 100);
+  gl::translate(x_position, getWindowCenter().y - vert_y_offset);
   gl::color( Color( 1, 1, 1 ) );
-  Rectf drawRect( 0, 0, mTexture->getWidth() / 12,
-                  mTexture->getHeight() / 12 );
-  gl::draw(mTexture, drawRect);
+  Rectf drawRect( 0, 0, board_texture->getWidth() / scale_factor,
+                  board_texture->getHeight() / scale_factor );
+  gl::draw(board_texture, drawRect);
 
 }
 
 void Board::UpdatePos(int score) {
   if (x_position <= getWindowWidth()) {
-    x_position += 0.5 * (speed * score + 1);
+    x_position += (speed) * (speed * score + 1);
   } else {
     x_position = 0;
   }
-}
-double Board::GetXPos() {
-  return x_position;
 }
 
 bool Board::GetShotOutcome(double x) {
@@ -57,7 +61,7 @@ bool Board::GetShotOutcome(double x) {
 }
 
 double Board::GetYPos() {
-  return getWindowCenter().y - 100;
+  return getWindowCenter().y - vert_y_offset;
 }
 
 }  // namespace mylibrary
