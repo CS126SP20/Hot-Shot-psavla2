@@ -28,10 +28,12 @@ namespace mylibrary {
     /** Getter for ball's x position **/
     double GetXPos();
     /**
-     * Updates change in position based of mouse click
+     * Updates change in position per frame based of mouse click
      * @param dest vector coordiantes of mouse click destination
      */
-    void UpdatePos(vec2 dest);
+    void UpdateVelocity(vec2 dest);
+    /** Updates x and y position of ball **/
+    void UpdatePos();
    private:
     /** board's x_position **/
     double y_position;

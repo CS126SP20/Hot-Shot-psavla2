@@ -43,7 +43,21 @@ void Ball::DrawBall() {
   gl::color(basketball_color);
   gl::drawSolidCircle(getWindowCenter() + start_position, ball_radius);
   gl::popMatrices();
+}
 
+void Ball::UpdateVelocity(vec2 dest) {
+  gl::setMatricesWindow(getWindowSize());
+  float des_x = dest[0];
+  float des_y = dest[1];
+  float org_x = (getWindowCenter() + start_position)[0];
+  float org_y = (getWindowCenter() + start_position)[1];
+  dx = normalize(vec2(des_x - org_x,des_y - org_y))[0];
+  dy = normalize(vec2(des_x - org_x,des_y - org_y))[1];
+  dx *= speed;
+  dy *= speed;
+}
+
+void Ball::UpdatePos() {
   if (abs(y_position) <= getWindowCenter().y - vert_y_offset) {
     y_position += dy;
   } else {
@@ -57,18 +71,6 @@ void Ball::DrawBall() {
     x_position = getWindowWidth()/2;
     y_position = 0;
   }
-
-}
-
-void Ball::UpdatePos(vec2 dest) {
-  float des_x = dest[0];
-  float des_y = dest[1];
-  float org_x = (getWindowCenter() + start_position)[0];
-  float org_y = (getWindowCenter() + start_position)[1];
-  dx = normalize(vec2(des_x - org_x,des_y - org_y))[0];
-  dy = normalize(vec2(des_x - org_x,des_y - org_y))[1];
-  dx *= speed;
-  dy *= speed;
 }
 
 double Ball::GetYPos() {

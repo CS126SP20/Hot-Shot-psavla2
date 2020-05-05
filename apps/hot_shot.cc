@@ -58,7 +58,10 @@ void HotShot::setup() {
 
 void HotShot::update() {
   board.UpdatePos(score);
-  ball.UpdatePos(mouse_dest);
+  if (is_shot_in_progress) {
+    ball.UpdateVelocity(mouse_dest);
+    ball.UpdatePos();
+  }
   if (lives == 0) {
     is_game_finished = true;
   }
