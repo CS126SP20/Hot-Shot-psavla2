@@ -20,7 +20,7 @@ Below is how the game should look when set up.
 ### Quick Start
 * Clone this repository
 * Unzip the folder
-* Navigate to `final-project-psavla2/` inside of this folder, find and open `cinder-myapp`
+* Navigate to `Hot-Shot-psavla2/` inside of this folder, find and open `cinder-myapp`
 * Build and run the game!
 
 ### Controls
