@@ -25,6 +25,15 @@
 - **4/28/20** Added speed feature which makes the board move faster as score increases. Need to:  
     - [x] Move ball in direction of mouse click
     - [x] Fix score detection (not hardcoded)
-    
+
+- **5/03/20** Fixed issue with score moving and added GUI to let user know lives remaining. Need to:
+    - [ ] Make functions more modular
+    - [ ] Prevent repeated work in functions 
+
+- **5/04/20** Updated functions to prevent repeated work and made them more modular. Cleaned up code and added documentation.
+     - [x] Make functions more modular
+     - [x] Prevent repeated work in functions, simplified calculations
+     - Added game title
+     - Wrote README
 
     
