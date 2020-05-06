@@ -19,7 +19,7 @@ gl::TextureRef board_texture;
 
 Board::Board() {
   x_position = 0;
-  x_boundary = 80;
+  x_board_boundary = 80;
 }
 
 void Board::SetUp() {
@@ -49,8 +49,8 @@ bool Board::GetShotOutcome(double x) {
   cinder::vec2 center = getWindowCenter();
   double board_x = x_position;
   double ball_x = x;
-  if (board_x >= getWindowWidth() - ball_x - x_boundary &&
-      board_x <= getWindowWidth() - ball_x + x_boundary) {
+  if (board_x >= getWindowWidth() - ball_x - x_board_boundary &&
+      board_x <= getWindowWidth() - ball_x + x_board_boundary) {
     return true;
   } else {
     return false;

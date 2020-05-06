@@ -45,7 +45,7 @@ namespace mylibrary {
     int vert_y_offset = 100;
    private:
     /** x position error when checking if shot is made **/
-    double x_boundary;
+    double x_board_boundary;
     /** board's x_position **/
     double x_position;
     /** board's y_position **/
