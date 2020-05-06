@@ -17,24 +17,30 @@ using namespace ci::app;
 namespace mylibrary {
   class Ball {
    public:
-    /** Constructor that sets x,y position and change in x,y (dx,dy) **/
+    /** Constructor that sets x,y position, change in x,y (dx,dy) and radius **/
     Ball();
     /** Sets the balls initial location**/
     void SetBall() const;
     /** Draws the ball at the updated position **/
-    void DrawBall();
+    void DrawBall() const;
     /** Getter for ball's y position **/
     double GetYPos();
     /** Getter for ball's x position **/
     double GetXPos();
+    /** Getter for ball's starting position **/
+    vec2 GetStartPos();
     /**
      * Updates change in position per frame based of mouse click
      * @param dest vector coordiantes of mouse click destination
      */
-    void UpdateVelocity(vec2 dest);
+    void SetVelocity(vec2 dest);
     /** Updates x and y position of ball **/
     void UpdatePos();
    private:
+    /** ball radius **/
+    int ball_radius;
+    /**starting position of ball **/
+    vec2 start_position;
     /** board's x_position **/
     double y_position;
     /** board's x_position **/
