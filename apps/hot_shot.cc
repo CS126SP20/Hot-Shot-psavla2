@@ -18,8 +18,6 @@ using std::vector;
 const Color background = Color(0.53, 0.81, 0.94);
 /** orange color **/
 const Color orange = Color(1,0.67,0);
-/** ball's starting position **/
-const vec2 ball_start_position = vec2(0,250);
 /** size of the font*/
 const cinder::ivec2 font_size = {500, 50};
 /** score location on screen **/
@@ -49,7 +47,7 @@ void HotShot::setup() {
   mylibrary::Board::SetUp();
   gl::enableDepthWrite();
   gl::enableDepthRead();
-  mouse_dest = ball_start_position;
+  mouse_dest = ball.GetStartPos();
   cinder::audio::SourceFileRef aud = cinder::audio::
       load(cinder::app::loadAsset("game_audio.wav"));
   background_audio = cinder::audio::Voice::create(aud);
@@ -59,7 +57,7 @@ void HotShot::setup() {
 void HotShot::update() {
   board.UpdatePos(score);
   if (is_shot_in_progress) {
-    ball.UpdateVelocity(mouse_dest);
+    ball.SetVelocity(mouse_dest);
     ball.UpdatePos();
   }
   if (lives == 0) {

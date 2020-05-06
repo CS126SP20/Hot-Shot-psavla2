@@ -36,4 +36,7 @@
      - Added game title
      - Wrote README
 
+- **5/05/20** Made DrawBall function constant so it only draws, added function to take care of handling updating position
+
+- **5/06/20** Cleaned up code and global variables to make class specific. 
     

@@ -17,7 +17,7 @@ namespace mylibrary {
      */
     Board();
     /**
-     * Sets up basketball board texture
+     * Sets up basketball board texture and boundary
      */
     static void SetUp();
     /**
@@ -41,7 +41,11 @@ namespace mylibrary {
      * @return true if the ball hits the basket, false otherwise
      */
     bool GetShotOutcome(double ball_x);
+    /** vertical y offset for board **/
+    int vert_y_offset = 100;
    private:
+    /** x position error when checking if shot is made **/
+    double x_boundary;
     /** board's x_position **/
     double x_position;
     /** board's y_position **/

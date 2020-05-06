@@ -1,18 +1,14 @@
 // Copyright (c) 2020 Parth Savla. All rights reserved.
-#include <mylibrary/board.h>
 #include <cinder/app/App.h>
 #include <cinder/app/RendererGl.h>
 #include <cinder/gl/gl.h>
+#include <mylibrary/board.h>
 
 using namespace ci;
 using namespace ci::app;
 
 /** speed multiplier for board **/
-const double speed  = 0.5;
-/** x position error when checking if shot is made **/
-const double x_boundary = 80;
-/** vertical y offset for board **/
-const int vert_y_offset = 100;
+const double speed = 0.5;
 /** board image scaling factor **/
 const int scale_factor = 12;
 
@@ -23,21 +19,22 @@ gl::TextureRef board_texture;
 
 Board::Board() {
   x_position = 0;
+  x_boundary = 80;
 }
-void Board::SetUp()   {
-      auto img = loadImage( loadAsset( "basketball.png"));
-      board_texture = gl::Texture::create( img );
-      board_texture->bind();
+
+void Board::SetUp() {
+  auto img = loadImage(loadAsset("basketball.png"));
+  board_texture = gl::Texture::create(img);
+  board_texture->bind();
 }
 
 void Board::DrawBoard() const {
-  gl::setMatricesWindow( getWindowSize());
+  gl::setMatricesWindow(getWindowSize());
   gl::translate(x_position, getWindowCenter().y - vert_y_offset);
-  gl::color( Color( 1, 1, 1 ) );
-  Rectf drawRect( 0, 0, board_texture->getWidth() / scale_factor,
-                  board_texture->getHeight() / scale_factor );
+  gl::color(Color(1, 1, 1));
+  Rectf drawRect(0, 0, board_texture->getWidth() / scale_factor,
+                 board_texture->getHeight() / scale_factor);
   gl::draw(board_texture, drawRect);
-
 }
 
 void Board::UpdatePos(int score) {
@@ -60,8 +57,6 @@ bool Board::GetShotOutcome(double x) {
   }
 }
 
-double Board::GetYPos() {
-  return getWindowCenter().y - vert_y_offset;
-}
+double Board::GetYPos() { return getWindowCenter().y - vert_y_offset; }
 
 }  // namespace mylibrary
