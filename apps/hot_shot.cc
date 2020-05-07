@@ -139,7 +139,7 @@ void HotShot::DrawScore() {
   std::stringstream score_stream;
   score_stream << score;
   std::stringstream life_stream;
-  for (int i = 0; i < lives; i++) {
+  for (size_t i = 0; i < lives; i++) {
     life_stream << "🏀";
   }
   PrintText("Score: " + score_stream.str() + "            Lives: " +

@@ -18,10 +18,11 @@ Below is how the game should look when set up.
 * [CLion](https://www.jetbrains.com/clion/)
 
 ### Quick Start
-* Clone this repository
-* Unzip the folder
-* Navigate to `Hot-Shot-psavla2/` inside of this folder, find and open `cinder-myapp`
-* Build and run the game!
+1. Download Cinder for your platform and unzip into a folder `~/Cinder`.
+2. Open `~/Cinder` folder in CLion and build. Create a directory in this folder called `hot-shot`. 
+3. Clone this repository and unzip into this newly created folder.
+4. Open this `hot-shot` in CLion.
+5. Set the target to `cinder-myapp` and run the game!
 
 ### Controls
 
