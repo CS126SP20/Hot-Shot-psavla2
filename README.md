@@ -3,11 +3,12 @@
 [![license](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![docs](https://img.shields.io/badge/docs-yes-brightgreen)](docs/README.md)
 
-This project is a fun game of basketball where the user can aim and shoot by mouse to score as many points as possible.
-
-Below is how the game should look when set up.
 
 ![Screenshot](screenshot.png)
+
+**Hot Shot** is a fun game of basketball where the user can aim and shoot by mouse to score as many points as possible as
+accurately as possible. It uses *OpenGL* for graphics to bring the game to life and simulate shooting hoops. 
+
 
 ### Dependencies
 * [CMake](https://cmake.org/)
